@@ -18,8 +18,7 @@ class UploadProductFragment : Fragment() {
     private val modelView : ProductModel by activityViewModels()
     private lateinit var binding : FragmentUploadProductBinding
     private var category = "Grocery"
-    private var stockedDate = ""
-    private var stockedTime = ""
+    private var id : Long? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,16 +26,27 @@ class UploadProductFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentUploadProductBinding.inflate(inflater,container,false)
         categorySpinner()
+        id = arguments?.getLong("id")
+        if(id != null){
+            binding.uploadButton.setText("Update")
+            modelView.getProductById(id!!).observe(viewLifecycleOwner){
+                binding.productName.setText(it.name)
+                binding.timeShow.text = it.stockTime
+                binding.dateView.text = it.stockDate
+                binding.productQuantity.setText("${it.quantity}")
+                binding.productPrice.setText("${it.price}")
+                val index = categoryList.indexOf(it.category)
+                binding.productCategory.setSelection(index)
+            }
+        }
         binding.dateButton.setOnClickListener {
             DatePickerDialog{date ->
-                stockedDate = date
                 binding.dateView.text = date
             }.show(childFragmentManager,null)
         }
 
         binding.timeButton.setOnClickListener {
             TimePickerDialog{time ->
-                stockedTime = time
                 binding.timeShow.text = time
             }.show(childFragmentManager, null)
         }
@@ -52,9 +62,10 @@ class UploadProductFragment : Fragment() {
         val productName = binding.productName.text.toString()
         val productPrice = binding.productPrice.text.toString().toDouble()
         val productQuantity = binding.productQuantity.text.toString().toInt()
+        val stockedDate = binding.dateView.text.toString()
+        val stockedTime = binding.timeShow.text.toString()
 
         val newProduct = Product(
-            id = System.currentTimeMillis(),
             name = productName,
             price = productPrice,
             quantity = productQuantity,
@@ -63,7 +74,14 @@ class UploadProductFragment : Fragment() {
             stockTime = stockedTime
         )
 
-        modelView.addProduct(newProduct)
+        if(id != null){
+            newProduct.id = id!!
+            modelView.updateProduct(newProduct)
+        }else{
+            modelView.addProduct(newProduct)
+        }
+
+
 
         findNavController().navigate(R.id.action_uploadProductFragment_to_productFragment)
 

@@ -18,4 +18,6 @@ class ProductRepository (val productDao: ProductDao) {
     }
 
     fun getAllProduct() : LiveData<List<Product>> = productDao.getAllProduct()
+
+    fun getProductById(id : Long) : LiveData<Product> = productDao.getProductById(id)
 }

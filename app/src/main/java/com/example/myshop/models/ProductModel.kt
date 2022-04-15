@@ -35,4 +35,6 @@ class ProductModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getAllProduct() : LiveData<List<Product>> = repository.getAllProduct()
+
+    fun getProductById(id : Long) : LiveData<Product> = repository.getProductById(id)
 }

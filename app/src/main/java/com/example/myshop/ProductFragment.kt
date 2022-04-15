@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -55,7 +56,8 @@ class ProductFragment : Fragment() {
     private fun onClickMenuItem(product: Product, action: RowAction){
         when(action){
             RowAction.EDIT -> {
-
+                val bundle = bundleOf("id" to product.id)
+                findNavController().navigate(R.id.action_productFragment_to_uploadProductFragment, bundle)
             }
             RowAction.DELETE -> {
                 AlertShowDialog(
@@ -65,11 +67,11 @@ class ProductFragment : Fragment() {
                     negativeText = "Cancel"
                 ){
                     modelView.deleteProduct(product)
-                    val snackbar = Snackbar.make(binding.productRecycleView, "Wanna change your mind?", Snackbar.LENGTH_LONG)
-                    snackbar.setAction("UNDO!"){
+                    val snackBar = Snackbar.make(binding.productRecycleView, "Wanna change your mind?", Snackbar.LENGTH_LONG)
+                    snackBar.setAction("UNDO!"){
                         modelView.addProduct(product)
                     }
-                    snackbar.show()
+                    snackBar.show()
                 }.show(childFragmentManager,null)
             }
             else -> {
