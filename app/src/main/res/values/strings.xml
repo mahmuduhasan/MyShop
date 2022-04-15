@@ -11,4 +11,6 @@
     <string name="select_time">Select Time</string>
     <string name="time">12:00 AM</string>
     <string name="productname">ProductName</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 </resources>

@@ -2,12 +2,13 @@ package com.example.myshop
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myshop.databinding.ProductViewBinding
 
-class ProductAdapter : ListAdapter<Product, ProductAdapter.ProductViewHolder>(ProductDiffUtil()) {
+class ProductAdapter(val callBack : (Product,RowAction) -> Unit) : ListAdapter<Product, ProductAdapter.ProductViewHolder>(ProductDiffUtil()) {
     class ProductViewHolder(val binding : ProductViewBinding) : RecyclerView.ViewHolder(binding.root){
         fun productBind(product: Product){
             binding.product = product
@@ -32,5 +33,25 @@ class ProductAdapter : ListAdapter<Product, ProductAdapter.ProductViewHolder>(Pr
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = getItem(position)
         holder.productBind(product)
+        val menuIV = holder.binding.menuIV
+        menuIV.setOnClickListener {
+            val popUpMenu = PopupMenu(menuIV.context, menuIV)
+            popUpMenu.menuInflater.inflate(R.menu.menu_item, popUpMenu.menu)
+            popUpMenu.show()
+            popUpMenu.setOnMenuItemClickListener {
+                val action = when(it.itemId){
+                    R.id.edit -> RowAction.EDIT
+                    R.id.delete -> RowAction.DELETE
+                    else -> RowAction.NONE
+                }
+                callBack(product,action)
+                true
+            }
+        }
     }
 }
+
+enum class RowAction{
+    EDIT, DELETE, NONE
+}
+
