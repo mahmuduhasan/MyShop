@@ -5,11 +5,13 @@
       <map>
         <entry key="..\:/AndroidProjects/MyShop/app/src/main/res/drawable/btn_background.xml" value="0.153" />
         <entry key="..\:/AndroidProjects/MyShop/app/src/main/res/drawable/field_background.xml" value="0.153" />
+        <entry key="..\:/AndroidProjects/MyShop/app/src/main/res/drawable/ic_baseline_favorite_false.xml" value="0.1715" />
+        <entry key="..\:/AndroidProjects/MyShop/app/src/main/res/drawable/ic_baseline_favorite_true.xml" value="0.1715" />
         <entry key="..\:/AndroidProjects/MyShop/app/src/main/res/drawable/ic_wave.xml" value="0.153" />
         <entry key="..\:/AndroidProjects/MyShop/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/AndroidProjects/MyShop/app/src/main/res/layout/fragment_product.xml" value="0.22" />
         <entry key="..\:/AndroidProjects/MyShop/app/src/main/res/layout/fragment_upload_product.xml" value="0.209375" />
-        <entry key="..\:/AndroidProjects/MyShop/app/src/main/res/layout/product_view.xml" value="0.47429305912596403" />
+        <entry key="..\:/AndroidProjects/MyShop/app/src/main/res/layout/product_view.xml" value="0.67" />
         <entry key="..\:/AndroidProjects/MyShop/app/src/main/res/menu/menu_item.xml" value="0.209375" />
       </map>
     </option>

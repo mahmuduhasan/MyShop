@@ -23,7 +23,6 @@ class UploadProductFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentUploadProductBinding.inflate(inflater,container,false)
         categorySpinner()
         id = arguments?.getLong("id")
@@ -37,6 +36,7 @@ class UploadProductFragment : Fragment() {
                 binding.productPrice.setText("${it.price}")
                 val index = categoryList.indexOf(it.category)
                 binding.productCategory.setSelection(index)
+                binding.uploadButton.tag = it.hotItem
             }
         }
         binding.dateButton.setOnClickListener {
@@ -76,6 +76,7 @@ class UploadProductFragment : Fragment() {
 
         if(id != null){
             newProduct.id = id!!
+            newProduct.hotItem = binding.uploadButton.tag as Boolean
             modelView.updateProduct(newProduct)
         }else{
             modelView.addProduct(newProduct)

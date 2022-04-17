@@ -29,7 +29,7 @@ class ProductFragment : Fragment() {
         Handler(Looper.getMainLooper()).postDelayed(Runnable {
             anim.playAnimation()
         }, 2000)
-        val adapter = ProductAdapter(::onClickMenuItem)
+        val adapter = ProductAdapter( ::onClickHotItem, ::onClickMenuItem)
         binding.productRecycleView.layoutManager = LinearLayoutManager(activity)
         binding.productRecycleView.adapter = adapter
         modelView.getAllProduct().observe(viewLifecycleOwner){
@@ -51,6 +51,10 @@ class ProductFragment : Fragment() {
             findNavController().navigate(R.id.action_productFragment_to_uploadProductFragment)
         }
         return binding.root
+    }
+
+    private fun onClickHotItem(product: Product){
+        modelView.updateProduct(product)
     }
 
     private fun onClickMenuItem(product: Product, action: RowAction){

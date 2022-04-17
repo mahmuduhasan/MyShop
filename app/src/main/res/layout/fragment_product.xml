@@ -20,13 +20,43 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:context=".ProductFragment">
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/shopAnimation"
-                android:layout_width="167dp"
-                android:layout_height="132dp"
-                app:lottie_autoPlay="true"
-                app:lottie_fileName="shop.json"
-                app:lottie_loop="true" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                >
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/shopAnimation"
+                    android:layout_width="167dp"
+                    android:layout_height="132dp"
+                    app:lottie_autoPlay="true"
+                    android:layout_weight="1"
+                    app:lottie_fileName="shop.json"
+                    app:lottie_loop="true" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Swapno"
+                        android:textColor="@color/black"
+                        android:textSize="30sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Outlet : Nikunjo-2"
+                        android:textColor="@color/black"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Phone: +88-01345678840"
+                        android:textColor="@color/black"/>
+                </LinearLayout>
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/productRecycleView"
