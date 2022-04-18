@@ -22,61 +22,71 @@
             android:paddingBottom="20dp"
             android:background="@drawable/field_background">
 
+            <ImageView
+                android:id="@+id/productImage"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginTop="20dp"
+                android:src="@{product.image}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="40dp"
                 android:hint="@string/productname"
-                android:textColorHint="@color/black"
-                android:textSize="30sp"
                 android:text="@{product.name}"
                 android:textColor="@color/black"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textColorHint="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintStart_toEndOf="@+id/productImage"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="12dp"
                 android:drawableStart="@drawable/ic_baseline_confirmation_number_24"
                 android:hint="ProductQuantity"
-                android:textColorHint="@color/black"
                 android:text="@{product.quantity+` Unit`}"
                 android:textColor="@color/black"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textColorHint="@color/black"
+                app:layout_constraintEnd_toStartOf="@+id/date"
                 app:layout_constraintTop_toBottomOf="@+id/name" />
 
             <TextView
                 android:id="@+id/price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="44dp"
                 android:drawableStart="@drawable/ic_baseline_attach_money_24"
                 android:hint="ProductPrice"
-                android:textColorHint="@color/black"
                 android:text="@{product.price+`/Unit`}"
                 android:textColor="@color/black"
-                app:layout_constraintStart_toEndOf="@+id/quantity"
-                app:layout_constraintTop_toBottomOf="@+id/name" />
+                android:textColorHint="@color/black"
+                app:layout_constraintStart_toEndOf="@+id/name"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="40dp"
                 android:drawableStart="@drawable/ic_baseline_date_range_24"
                 android:hint="ProductDate"
-                android:textColorHint="@color/black"
                 android:text="@{product.stockDate}"
                 android:textColor="@color/black"
-                app:layout_constraintStart_toEndOf="@+id/price"
-                app:layout_constraintTop_toBottomOf="@+id/name" />
+                android:textColorHint="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/price" />
 
             <ImageView
                 android:id="@+id/menuIV"

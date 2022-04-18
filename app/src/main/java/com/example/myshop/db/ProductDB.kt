@@ -9,7 +9,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.myshop.Product
 import com.example.myshop.daos.ProductDao
 
-@Database(entities = [Product::class], version = 2)
+@Database(entities = [Product::class], version = 3)
 abstract class ProductDB() : RoomDatabase() {
     abstract fun getDao() : ProductDao
     companion object{
@@ -19,6 +19,13 @@ abstract class ProductDB() : RoomDatabase() {
                 database.execSQL("alter table 'product' add column 'hot_item' integer not null default 0")
             }
         }
+
+        private val migration_2_3 : Migration = object : Migration(2,3){
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("alter table 'product' add column 'image' text")
+            }
+
+        }
         fun getDB(context: Context) : ProductDB{
             if(db == null){
                 db = Room.databaseBuilder(
@@ -26,7 +33,7 @@ abstract class ProductDB() : RoomDatabase() {
                     ProductDB::class.java,
                     "product"
                 )
-                .addMigrations(migration_1_2)
+                .addMigrations(migration_1_2, migration_2_3)
                 .build()
                 return db!!
             }

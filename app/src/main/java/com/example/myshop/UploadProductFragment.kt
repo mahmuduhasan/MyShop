@@ -1,24 +1,51 @@
 package com.example.myshop
 
+import android.app.Activity.RESULT_OK
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.content.FileProvider
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.myshop.databinding.FragmentUploadProductBinding
 import com.example.myshop.dialogs.DatePickerDialog
 import com.example.myshop.dialogs.TimePickerDialog
 import com.example.myshop.models.ProductModel
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class UploadProductFragment : Fragment() {
+    val REQUEST_IMAGE_CAPTURE = 1
     private val modelView : ProductModel by activityViewModels()
     private lateinit var binding : FragmentUploadProductBinding
     private var category = "Grocery"
     private var id : Long? = null
+    private var currentPhotoPath: String? = null
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File = requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
+        return File.createTempFile(
+            "JPEG_${timeStamp}_", /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
+        ).apply {
+            currentPhotoPath = absolutePath
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,7 +77,9 @@ class UploadProductFragment : Fragment() {
                 binding.timeShow.text = time
             }.show(childFragmentManager, null)
         }
-
+        binding.uploadImageButton.setOnClickListener {
+            dispatchTakePictureIntent()
+        }
         binding.uploadButton.setOnClickListener {
             saveInfo()
         }
@@ -71,7 +100,8 @@ class UploadProductFragment : Fragment() {
             quantity = productQuantity,
             category = category,
             stockDate = stockedDate,
-            stockTime = stockedTime
+            stockTime = stockedTime,
+            image = currentPhotoPath
         )
 
         if(id != null){
@@ -108,6 +138,37 @@ class UploadProductFragment : Fragment() {
 
             }
     }
+    private fun dispatchTakePictureIntent() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            // Ensure that there's a camera activity to handle the intent
+            takePictureIntent.resolveActivity(requireActivity().packageManager)?.also {
+                // Create the File where the photo should go
+                val photoFile: File? = try {
+                    createImageFile()
+                } catch (ex: IOException) {
+                    // Error occurred while creating the File
+                    null
+                }
+                // Continue only if the File was successfully created
+                photoFile?.also {
+                    val photoURI: Uri = FileProvider.getUriForFile(
+                        requireActivity(),
+                        "com.example.myshop.fileprovider",
+                        it
+                    )
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            binding.showImageIV.setImageURI(Uri.parse(currentPhotoPath))
+        }
+    }
+
 
 }
 

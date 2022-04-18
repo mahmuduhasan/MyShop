@@ -17,6 +17,7 @@ data class Product(
     @ColumnInfo(name = "stocked_time")
     val stockTime : String,
     @ColumnInfo(name = "hot_item")
-    var hotItem : Boolean = false
+    var hotItem : Boolean = false,
+    var image : String? = null
 )
 
